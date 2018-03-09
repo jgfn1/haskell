@@ -16,10 +16,10 @@ maxSale :: Int->Int
 maxSale n | n == 0 = sales 0
           | otherwise = max (sales n) (maxSale (n - 1))
 
-tableSales :: Int ->(String, IO())
-tableSales n = putStr(
-    "Semana   Venda\n" ++ show (tableSales (n - 1)) ++ show (n) ++ 
-    shiftRight 4 (show (sales n)) ++ "\n"
-    )
+tableSales :: Int->String
+tableSales 0 = show(0) ++ shiftRight 8 (show (sales 0)) ++ "\n"
+tableSales n = tableSales (n - 1) ++ show (n) ++
+    shiftRight 8 (show (sales n)) ++ "\n"
 
--- printString
+printTable :: Int->IO()
+printTable n = putStr ("Semana   Venda\n" ++ tableSales n)
