@@ -14,3 +14,7 @@ digits :: String -> String
 digits [] = []
 digits (head:tail) | (isDigit head) = (head:(digits tail))
                    | otherwise = digits tail
+
+sumPairs :: [(Int,Int)]->[Int]
+sumPairs [] = []
+sumPairs ((head1, head2):tail) = ((head1 + head2):(sumPairs tail))
