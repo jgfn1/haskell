@@ -49,3 +49,10 @@ qtyRented [] argperson = 0
 qtyRented ((person, book): tail) argperson | person == argperson = 1 + (qtyRented tail argperson) 
                                            | otherwise = qtyRented tail argperson
 
+renting :: Database -> Person -> Book -> Database
+renting db person book = ((person, book):db)
+
+devolution :: Database -> Person -> Book -> Database
+devolution [] p b = []
+devolution ((person, book): tail) p b | (p == person && b == book) = tail
+                                      | otherwise = ((person, book) : (devolution tail p b))
