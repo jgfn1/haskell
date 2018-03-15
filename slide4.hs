@@ -18,3 +18,34 @@ digits (head:tail) | (isDigit head) = (head:(digits tail))
 sumPairs :: [(Int,Int)]->[Int]
 sumPairs [] = []
 sumPairs ((head1, head2):tail) = ((head1 + head2):(sumPairs tail))
+
+type Person = String
+type Book = String
+type Database = [(Person, Book)]
+exampleDatabase :: Database
+exampleDatabase = [("Sergio","O Senhor dos Aneis"), 
+                   ("Andre","Duna"), 
+                   ("Fernando","Jonathan Strange & Mr.Norrell"), 
+                   ("Fernando","Duna"),
+                   ("Fernando", "O Minimo Que Voce Precisa Saber Para Nao Ser Um Idiota")]
+
+books :: Database -> Person -> [Book]
+books [] argperson = []
+books ((person, book): tail) argperson | person == argperson = [book] ++ (books tail argperson) 
+                                       | otherwise = books tail argperson
+
+rental :: Database -> Book -> [Person]
+rental [] argbook = []
+rental ((person, book): tail) argbook  | book == argbook = [person] ++ (rental tail argbook) 
+                                       | otherwise = rental tail argbook
+
+rented :: Database -> Book -> Bool
+rented [] argbook = False
+rented ((person, book): tail) argbook  | book == argbook = True 
+                                       | otherwise = rented tail argbook
+
+qtyRented :: Database -> Person -> Int
+qtyRented [] argperson = 0
+qtyRented ((person, book): tail) argperson | person == argperson = 1 + (qtyRented tail argperson) 
+                                           | otherwise = qtyRented tail argperson
+
