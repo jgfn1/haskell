@@ -34,6 +34,11 @@ books [] argperson = []
 books ((person, book): tail) argperson | person == argperson = [book] ++ (books tail argperson) 
                                        | otherwise = books tail argperson
 
+booksComprehensive :: Database -> Person -> [Book]
+booksComprehensive ((dbperson, dbbook):[]) person = [dbbook]
+booksComprehensive ((dbperson, dbbook): (tperson, tbook)) person = [book | book <- (dbbook:tbook), person == dbperson]
+
+
 rental :: Database -> Book -> [Person]
 rental [] argbook = []
 rental ((person, book): tail) argbook  | book == argbook = [person] ++ (rental tail argbook) 
@@ -57,3 +62,8 @@ devolution [] p b = []
 devolution ((person, book): tail) p b | (p == person && b == book) = tail
                                       | otherwise = ((person, book) : (devolution tail p b))
 
+unitaryList :: [Int] -> [Int]
+unitaryList list = [x `div` x | x <- list]
+
+memberComprehensive :: [Int] -> Int -> Bool
+memberComprehensive list n = [x | x <- list, x == n] == (n:[])
