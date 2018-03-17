@@ -56,3 +56,4 @@ devolution :: Database -> Person -> Book -> Database
 devolution [] p b = []
 devolution ((person, book): tail) p b | (p == person && b == book) = tail
                                       | otherwise = ((person, book) : (devolution tail p b))
+

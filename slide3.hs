@@ -51,3 +51,4 @@ slope ((x1, y1), (x2, y2)) = (y2 - y1)/(x2 - x1)
 
 yPoint :: Float -> Line -> Float
 yPoint x line = (slope line)*x
+
