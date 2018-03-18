@@ -34,10 +34,12 @@ books [] argperson = []
 books ((person, book): tail) argperson | person == argperson = [book] ++ (books tail argperson) 
                                        | otherwise = books tail argperson
 
-booksComprehensive :: Database -> Person -> [Book]
-booksComprehensive ((dbperson, dbbook):[]) person = [dbbook]
-booksComprehensive ((dbperson, dbbook): (tperson, tbook)) person = [book | book <- (dbbook:tbook), person == dbperson]
+booksFromDB:: Database -> [Book]
+booksFromDB ((person, book): []) = [book]
+booksFromDB ((person, book): tail) = [book] ++ (booksFromDB tail)
 
+booksComprehensive :: Database -> Person -> [Book]
+booksComprehensive ((dbperson, dbbook):tail) person = [book | book <- (booksFromDB ((dbperson, dbbook):tail)), (person, book) == (dbperson, dbbook)]
 
 rental :: Database -> Book -> [Person]
 rental [] argbook = []
