@@ -38,9 +38,6 @@ booksFromDB:: Database -> [Book]
 booksFromDB ((person, book): []) = [book]
 booksFromDB ((person, book): tail) = [book] ++ (booksFromDB tail)
 
-booksComprehensive :: Database -> Person -> [Book]
-booksComprehensive ((dbperson, dbbook):tail) person = [book | book <- (booksFromDB ((dbperson, dbbook):tail)), (person, book) == (dbperson, dbbook)]
-
 rental :: Database -> Book -> [Person]
 rental [] argbook = []
 rental ((person, book): tail) argbook  | book == argbook = [person] ++ (rental tail argbook) 
@@ -69,3 +66,22 @@ unitaryList list = [x `div` x | x <- list]
 
 memberComprehensive :: [Int] -> Int -> Bool
 memberComprehensive list n = [x | x <- list, x == n] == (n:[])
+
+booksComprehensive :: Database -> Person -> [Book]
+booksComprehensive db seeked_person = [book | (dbperson, book) <- db, dbperson == seeked_person]
+
+rentalComprehensive :: Database -> Book -> [Person]
+rentalComprehensive db book = [person | (person, dbbook) <- db, dbbook == book]
+
+rentedComprehensive :: Database -> Book -> Bool
+rentedComprehensive db seeked_book = [book1 | (person, book1) <- db, book1 == seeked_book] /= []
+
+qtyRentedComprehensive :: Database -> Person -> Int
+qtyRentedComprehensive db seeked_person = length [book | (dbperson, book) <- db, dbperson == seeked_person]
+
+devolutionComprehensive :: Database -> Person -> Book -> Database
+devolutionComprehensive db person book = [(dbperson, dbbook) | (dbperson, dbbook) <- db, (dbperson, dbbook) /= (person, book)]
+
+quickSort :: [Int] -> [Int]
+quickSort [] = []
+quickSort (head: tail) = (quickSort [left | left <- tail, left <= head]) ++ [head] ++ (quickSort [right | right <- tail, right > head])
