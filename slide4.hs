@@ -85,3 +85,14 @@ devolutionComprehensive db person book = [(dbperson, dbbook) | (dbperson, dbbook
 quickSort :: [Int] -> [Int]
 quickSort [] = []
 quickSort (head: tail) = (quickSort [left | left <- tail, left <= head]) ++ [head] ++ (quickSort [right | right <- tail, right > head])
+
+orderedInsert :: Int -> [Int] -> [Int]
+orderedInsert int list = [x | x <- list, x <= int] ++ [int] ++ [y | y <- list, y > int]
+
+insertionSort :: [Int] -> [Int]
+insertionSort [] = []
+insertionSort (head:head1:tail) = orderedInsert head1 [head] 
+
+unique :: [Int] -> [Int]
+unique [] = []
+unique (head:tail) = [head | head <- (head:tail), not (member tail head)]  ++ unique tail
