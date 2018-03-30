@@ -3,21 +3,13 @@ member [] n = False
 member (head:tail) n | head == n = True
                      | otherwise = member tail n
 
-memberList :: [[Int]] -> [Int] -> Bool
-memberList [] _ = False
-memberList [[]] [] = True
-memberList (head:tail) [] | head == [] = True
-                          | otherwise = memberList tail []
-memberList (head:tail) n | head == n = True
-                         | otherwise = memberList tail n
-
 quickSort :: [Int] -> [Int]
 quickSort [] = []
 quickSort (head: tail) = (quickSort [left | left <- tail, left <= head]) ++ [head] ++ (quickSort [right | right <- tail, right > head])
 
 kSmallest :: [Int] -> Int -> [Int]
 kSmallest [] k = []
-kSmallest list k = [x | x <- list, member (take k (quickSort list)) x]
+kSmallest list k = [x | x <- list, member (take k (quickSort (unique list))) x]
 
 isProductOfListElementsOnly :: [Int] -> Int -> Bool
 isProductOfListElementsOnly _ 0 = False
@@ -35,20 +27,28 @@ unique [] = []
 unique (head:tail) | not (member tail head) = [head]  ++ unique tail
                    | otherwise = unique tail
 
+remove :: [Int] -> Int -> [Int]
+remove [] y = []
+remove list y = [x | x <- list, x /= y]
+
+memberList :: [[Int]] -> [Int] -> Bool
+memberList [] _ = False
+memberList [[]] [] = True
+memberList (head:tail) [] | head == [] = True
+                          | otherwise = memberList tail []
+memberList (head:tail) n | head == n = True
+                         | otherwise = memberList tail n
+
 uniqueList :: [[Int]] -> [[Int]]
 uniqueList [] = []
 uniqueList [[]] = [[]]
 uniqueList (head:tail) | not (memberList tail head) = [head]  ++ uniqueList tail
                        | otherwise = uniqueList tail
 
-remove :: [Int] -> Int -> [Int]
-remove [] y = []
-remove list y = [x | x <- list, x /= y]
-
-func :: [Int] -> [Int]
-func [] = []
-func (a:as) = [a] ++ func as
+combinationsList :: [[Int]] -> [[Int]]
+combinationsList [] = []
+combinationsList (a:as) = combinations a ++ combinationsList as
 
 combinations :: [Int] -> [[Int]]
 combinations [] = [[]]
-combinations list = [list] ++ uniqueList [(take i list ++ drop (i + 1 + k) list) | k <- [0..((length list) - 1)], i <- [0..((length list) - 1)]]
+combinations list = [list] ++ uniqueList (combinationsList [(take i list ++ drop (i + 1) list) | i <- [0..((length list) - 1)]])
