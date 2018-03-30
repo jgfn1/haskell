@@ -3,6 +3,14 @@ member [] n = False
 member (head:tail) n | head == n = True
                      | otherwise = member tail n
 
+memberList :: [[Int]] -> [Int] -> Bool
+memberList [] _ = False
+memberList [[]] [] = True
+memberList (head:tail) [] | head == [] = True
+                          | otherwise = memberList tail []
+memberList (head:tail) n | head == n = True
+                         | otherwise = memberList tail n
+
 quickSort :: [Int] -> [Int]
 quickSort [] = []
 quickSort (head: tail) = (quickSort [left | left <- tail, left <= head]) ++ [head] ++ (quickSort [right | right <- tail, right > head])
@@ -24,7 +32,14 @@ composites primes list = [x | x <- list, isProductOfListElementsOnly primes x]
 
 unique :: [Int] -> [Int]
 unique [] = []
-unique (head:tail) = [head | head <- (head:tail), not (member tail head)]  ++ unique tail
+unique (head:tail) | not (member tail head) = [head]  ++ unique tail
+                   | otherwise = unique tail
+
+uniqueList :: [[Int]] -> [[Int]]
+uniqueList [] = []
+uniqueList [[]] = [[]]
+uniqueList (head:tail) | not (memberList tail head) = [head]  ++ uniqueList tail
+                       | otherwise = uniqueList tail
 
 remove :: [Int] -> Int -> [Int]
 remove [] y = []
@@ -36,4 +51,4 @@ func (a:as) = [a] ++ func as
 
 combinations :: [Int] -> [[Int]]
 combinations [] = [[]]
-combinations (a:as) = [drop i ([a] ++ func as) | i <- [0..length (a:as)]]
+combinations list = [list] ++ uniqueList [(take i list ++ drop (i + 1 + k) list) | k <- [0..((length list) - 1)], i <- [0..((length list) - 1)]]
