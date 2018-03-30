@@ -21,3 +21,19 @@ composites :: [Int] -> [Int] -> [Int]
 composites [] _ = []
 composites _ [] = []
 composites primes list = [x | x <- list, isProductOfListElementsOnly primes x]
+
+unique :: [Int] -> [Int]
+unique [] = []
+unique (head:tail) = [head | head <- (head:tail), not (member tail head)]  ++ unique tail
+
+remove :: [Int] -> Int -> [Int]
+remove [] y = []
+remove list y = [x | x <- list, x /= y]
+
+func :: [Int] -> [Int]
+func [] = []
+func (a:as) = [a] ++ func as
+
+combinations :: [Int] -> [[Int]]
+combinations [] = [[]]
+combinations (a:as) = [drop i ([a] ++ func as) | i <- [0..length (a:as)]]
