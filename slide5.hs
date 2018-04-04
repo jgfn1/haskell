@@ -31,4 +31,4 @@ unkown l = foldr (++) [] (map sing l)
 
 biggest :: [[Int]] -> [Int]
 biggest [] = []
-biggest (a:as) = (folding (max) a) ++ biggest as
+biggest (a:as) = (folding (max) a):biggest as
