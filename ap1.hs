@@ -31,6 +31,7 @@ remove :: [Int] -> Int -> [Int]
 remove [] y = []
 remove list y = [x | x <- list, x /= y]
 
+-- 3)
 memberList :: [[Int]] -> [Int] -> Bool
 memberList [] _ = False
 memberList [[]] [] = True
@@ -52,3 +53,16 @@ combinationsList (a:as) = combinations a ++ combinationsList as
 combinations :: [Int] -> [[Int]]
 combinations [] = [[]]
 combinations list = [list] ++ uniqueList (combinationsList [(take i list ++ drop (i + 1) list) | i <- [0..((length list) - 1)]])
+
+{-
+
+Alternative solution
+combinations :: [Int] -> [[Int]]
+combinations [] = []
+combinations [x] = [[],[x]]
+combinations (x:xs) = let cb = combinations xs in cb ++ [x:c | c <- cb]
+
+[1, 2, 3]
+[2, 3] = [[], [2], [3], [2, 3]] ++ [[1], [1, 2], [1, 3], [1, 2, 3]]
+
+-}
