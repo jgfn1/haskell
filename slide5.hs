@@ -21,3 +21,14 @@ filtering f list = [x | x <- list, f x]
 biggerThanZero :: [Int] -> [Int]
 biggerThanZero [] = []
 biggerThanZero list = filtering (>0) list
+
+{-
+Creates a new list in which each element of it is one element of the old list.
+-}
+unkown :: [t] -> [t]
+unkown l = foldr (++) [] (map sing l)
+           where sing a = [a]
+
+biggest :: [[Int]] -> [Int]
+biggest [] = []
+biggest (a:as) = (folding (max) a) ++ biggest as
