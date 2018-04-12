@@ -18,9 +18,53 @@ a)
 	( . ) thrice map :: (a -> b) -> [a] -> [b]
 
 b)
-	swap map thrice = thrice (map)
-	Logo, o tipo é igual ao da letra a).
+	Como swap só recebe >uma< função como argumento, o tipo é indeterminado
+	já que a composição com as outras funções não é possível. 
 
 c)
-    O resultado será uma lista vazia, e segundo o GHCI [] :: [t]. 
+    O resultado será uma lista vazia, que segundo o GHCI é do tipo [t]. Mas o
+    tipo de entrada não pode ser determinado já que para qualquer lista
+    o resultado seria []. O interpretador afirma que o tipo é [[a]] -> [a],
+    no entanto a função pode ser aplicada a argumentos que não são necessa-
+    riamente [[a]], por isso é inconclusivo.
+
+-}
+
+-- Q3
+countOccur :: [String] -> String -> Int
+countOccur [] _ = 0
+countOccur list x = length [y | y <- list, y == x]
+
+headsFromLists :: [[t]] -> [t]
+headsFromLists [] = []
+headsFromLists (a:as) = (head a):(headsFromLists as)
+
+maxOccur:: [[String]] -> Int
+maxOccur [] = 0
+maxOccur list = max (countOccur (headsFromLists list) (head (headsFromLists list))) (maxOccur (tail list))
+
+moreTimesInFst :: [[String]] -> String
+moreTimesInFst (a:as) | countOccur (headsFromLists (a:as)) (head a) > countOccur
+
+winner :: [[String]] -> String
+winner [] = ""
+winner list | (fstInMoreThanHalf (moreTimesInFst list) list) = moreTimesInFst list
+winner list | 
+
+{-
+winner(list)
+{
+	movie = moreTimesInFst(list);
+	while(fstInMoreThanHalf(movie, list) == false)
+	{
+		while(OnlyOneWithLessKthPositions(k, list) == false)
+		{
+			k++;
+		}
+		RemoveFromList(movieWithLessKthPositions(k, list));
+		movie = moreTimesInFst(list);
+	}
+	winner = movie;
+	return winner;
+}
 -}
