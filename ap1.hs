@@ -44,7 +44,7 @@ uniqueList :: [[Int]] -> [[Int]]
 uniqueList [] = []
 uniqueList [[]] = [[]]
 uniqueList (head:tail) | not (memberList tail head) = [head]  ++ uniqueList tail
-                       | otherwise = uniqueList tail
+                       | otherwise = uniqueList tail	
 
 combinationsList :: [[Int]] -> [[Int]]
 combinationsList [] = []
