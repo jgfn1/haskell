@@ -112,8 +112,8 @@ converte str = converteAux (extractAll str)
 
 converteAux :: [String] -> [LogEntry]
 converteAux [] = []
-converteAux (a:b:c:d:abcds) | a == "Normal" = Permitido b c d:converteAux abcds
-                            | a == "Denied" = Negado b c d:converteAux abcds
+converteAux ("Normal":b:c:d:abcds) = Permitido b c d:converteAux abcds
+converteAux ("Denied":b:c:d:abcds) = Negado b c d:converteAux abcds
 
 extractAll :: String -> [String]
 extractAll [] = []
