@@ -23,7 +23,7 @@ locateAux a ((x,y):xys) | (a == x) = y
 -- 2) (3.0) Escreva uma função que verifique se uma lista está contida em outra (por exemplo, se uma String é substring de outra).
 -- Exemplos: substr "abc" "xyz12abrt" ----> False
 --           substr "abc" "aaabrsabcfr" --> True
---           substr "aab" "aacrtxxeaayb" -> False
+--           substr "aab" "aacrtxxeaayb" -> False3
 
 substr :: String -> String -> Bool
 substr s1 s2 = elem True [ (s1 == (take (length s1) (drop i s2))) | i <- [1..(length s2)]]
