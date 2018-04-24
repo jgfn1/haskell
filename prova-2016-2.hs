@@ -99,13 +99,26 @@ type Hora = String
 type Usuario = String
 data LogEntry = Permitido Dia Hora Usuario
               | Negado Dia Hora Usuario
-              deriving Show
+              deriving (Show, Eq)
 -- exemplo:
--- converte logSetembro -----> [Permitido "2016-09-27" "19:31:52"
--- "208772",Permitido "2016-09-27" "18:12:02" "155759",Permitido "2016-
--- 09-26" "17:12:02" "155759",Negado "2016-09-26" "16:11:02"
--- "188758",Permitido "2016-09-25" "19:12:02" "155759"]
--- converte :: String -> [LogEntry]
+-- converte logSetembro -----> [Permitido "2016-09-27" "19:31:52" "208772",Permitido "2016-09-27" "18:12:02" "155759",Permitido "2016-09-26" "17:12:02" "155759",Negado "2016-09-26" "16:11:02" "188758",Permitido "2016-09-25" "19:12:02" "155759"]
 -- função auxiliar para as questões
 -- strToInt :: String -> Int
 -- strToInt str = read str
+
+converte :: String -> [LogEntry]
+converte [] = []
+converte str = converteAux (extractAll str)
+
+converteAux :: [String] -> [LogEntry]
+converteAux [] = []
+converteAux (a:b:c:d:abcds) | a == "Normal" = Permitido b c d:converteAux abcds
+                            | a == "Denied" = Negado b c d:converteAux abcds
+
+extractAll :: String -> [String]
+extractAll [] = []
+extractAll str = [(take 6 (drop 20 str))] ++ [(take 10 str)] ++ [(take 8 (drop 11 str))] ++ [(take 6 (drop 27 str))] ++ extractAll (drop 35 str)
+
+hourExtract :: String -> [String]
+hourExtract [] = []
+hourExtract str = [(take 8 (drop 11 str))] ++ hourExtract (drop 35 str)
