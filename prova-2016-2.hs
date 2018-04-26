@@ -108,7 +108,7 @@ data LogEntry = Permitido Dia Hora Usuario
 
 converte :: String -> [LogEntry]
 converte [] = []
-converte str = converteAux (extractAll str)
+converte str = converteAux . extractAll str
 
 converteAux :: [String] -> [LogEntry]
 converteAux [] = []
