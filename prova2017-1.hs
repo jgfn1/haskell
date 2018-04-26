@@ -75,11 +75,11 @@ testeOrdenado = Node 10 (Node 5 (Leaf 3) (Leaf 6)) (Node 15 (Leaf 14) (Leaf 17))
 testeNaoOrdenado :: Tree Int
 testeNaoOrdenado = Node 10 (Node 5 (Leaf 3) (Leaf 6)) (Node 15 (Leaf 16) (Leaf 17))
 
-
 isSortedTree :: Ord t => Tree t -> Bool
 isSortedTree (Leaf x) = True
-isSortedTree (Node x (Leaf left) (Leaf right))         | (left <= x) && (right >= x) = (isSortedTree (Leaf left)) && (isSortedTree (Leaf right))
+isSortedTree (Node x (Leaf left) (Leaf right))         | (left <= x) && (right >= x) = (isSortedTree (Leaf left)) 
+                                                                                    && (isSortedTree (Leaf right))
                                                        | otherwise = False
 isSortedTree (Node x (Node left a b) (Node right c d)) | (left <= x) && (right >= x) = (isSortedTree (Node left a b)) 
-                                                                                            && (isSortedTree (Node right c d)) 
+                                                                                    && (isSortedTree (Node right c d)) 
                                                        | otherwise = False
