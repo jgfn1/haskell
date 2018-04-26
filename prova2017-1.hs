@@ -11,12 +11,9 @@
 -}
 isSorted :: Ord t => [t] -> Bool
 isSorted [] = True
-isSorted (a:as) = isSortedAux a as
-
-isSortedAux :: Ord t => t -> [t] -> Bool
-isSortedAux _ [] = True
-isSortedAux x (a:as) | x <= a = isSortedAux a as
-                     | otherwise = False
+isSorted (a:[]) = True
+isSorted (a:b:abs)  | a <= b = isSorted (b:abs)
+                    | otherwise = False
 
 {- 2) (2.5) O método de ordenação bubble-sort funciona da seguinte forma: 
    cada elemento da lista de entrada é comparado com o seguinte, 
